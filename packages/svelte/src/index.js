@@ -1,1 +1,1 @@
-export { init } from "./config.js";
+export { init, translate } from "./config.svelte.js";

@@ -30,30 +30,13 @@ const defaults = {
                 overlay: "var(--einkui-color-base)"
             }
         }
-    }
+    },
+    translate: text => text
 }
 
-/**
- * Loads one of the packaged fonts (by name) from its local file.
- * 
- * @param {string} font Name of the font
- */
-function loadPackagedFont(font) {
-    let fonts = import("./fonts").then(
-        resp => {
-            // get packaged fonts
-            let fonts = resp.default
-            // do nothing if not a packaged font
-            if (!(font in fonts)) return
-            // load each face
-            for (let face of fonts[font]) {
-                // add to document
-                document.fonts.add(face)
-            }
-        }
-    )
-    
-}
+// user-specified translation object
+var _translate = $state.raw(defaults.translate)
+export const translate = text => _translate(text)
 
 /**
  * Setup colors from spec
@@ -113,9 +96,21 @@ export function init(config={}) {
                 }
             }
             // load font(s) if packaged
-            val.forEach(
-                subval => loadPackagedFont(subval)
-            )
+            for (let font of val) {
+                import("./fonts").then(
+                    resp => {
+                        // get packaged fonts
+                        let fonts = resp.default
+                        // do nothing if not a packaged font
+                        if (!(font in fonts)) return
+                        // load each face
+                        for (let face of fonts[font]) {
+                            // add to document
+                            document.fonts.add(face)
+                        }
+                    }
+                )
+            }
             // set CSS variable
             document.documentElement.style.setProperty(
                 `--einkui-font-${key}`, val.map(subval => `"${subval}"`)
@@ -130,5 +125,8 @@ export function init(config={}) {
         setupColors(scheme.matches ? darkMode : lightMode)
         // re-configure colors when scheme changes
         scheme.addEventListener("change", value => setupColors(value ? darkMode : lightMode))
+
+        // set translation object
+        _translate = config.translate
     })
 }
