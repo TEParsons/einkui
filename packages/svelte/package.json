@@ -18,7 +18,7 @@
   "license": " CC-BY-4.0",
   "author": "Todd Parsons",
   "type": "module",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "test"
   },
