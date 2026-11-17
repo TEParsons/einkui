@@ -1,0 +1,25 @@
+{
+  "name": "@svelte/einkui",
+  "version": "1.0.0",
+  "description": "Svelte UI package designed to work with e-ink screens",
+  "keywords": [
+    "e-ink",
+    "ui",
+    "svelte"
+  ],
+  "homepage": "https://github.com/TEParsons/einkui#readme",
+  "bugs": {
+    "url": "https://github.com/TEParsons/einkui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TEParsons/einkui.git"
+  },
+  "license": " CC-BY-4.0",
+  "author": "Todd Parsons",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "test"
+  }
+}
