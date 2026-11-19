@@ -1,10 +1,19 @@
 <script>
+    /**
+     * @import { Snippet } from 'svelte'
+     * 
+     * @typedef Props
+     * @property {string} src File path for the icon, or a character
+     * @property {string} [alt] Alt text to display when the icon can't be loaded
+     * @property {any} size Size of the icon
+     * @property {object<any>} props Other props are passed through to the underlying <svg>, <img> or <span>
+     */
+
+    /** @type {Props} */
     let {
         src,
         alt=undefined,
-
         size="1em",
-        /** @prop {ComponentProps} props Other props are passed to the top element */
         ...props
     } = $props()
 </script>
@@ -43,7 +52,6 @@
 <style>
     .icon {
         aspect-ratio: 1 / 1;
-        line-height: 1em;
         object-fit: contain;
         flex-shrink: 0;
         text-align: center;

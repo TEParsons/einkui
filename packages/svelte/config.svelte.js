@@ -72,6 +72,7 @@ export function init(config={}) {
     onMount(() => {
         // apply defaults
         config = { 
+            ...defaults,
             fonts: {...defaults.fonts, ...config.fonts},
             colors: {
                 ...defaults.colors, ...config.colors,
