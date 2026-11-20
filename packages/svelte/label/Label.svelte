@@ -1,4 +1,5 @@
 <script>
+    import { marked } from "marked";
     /**
      * @import { Snippet } from 'svelte'
      * 
@@ -22,6 +23,10 @@
 >
     {#if typeof value === "function"}
         {@render value()}
+    {:else if typeof value === "string" && value.includes("\n")}
+        {@html marked.parse(value)}
+    {:else if typeof value === "string"}
+        {@html marked.parseInline(value)}
     {:else}
         {value}
     {/if}

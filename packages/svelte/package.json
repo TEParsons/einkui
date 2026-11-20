@@ -26,6 +26,6 @@
     "svelte": "^5.0.0"
   },
   "dependencies": {
-
+    "marked": "^18.2.1"
   }
 }
