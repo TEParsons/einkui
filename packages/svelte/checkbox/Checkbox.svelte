@@ -91,7 +91,6 @@
         position: relative;
         line-height: 1em;
         border: .25em solid var(--einkui-color-overlay);
-        border-radius: .5em;
     }
     
 
@@ -145,13 +144,16 @@
     button {
         width: 1.5em;
         height: 1.5em;
+        border-width: .25em;
     }
     button.small {
         width: 1.2em;
         height: 1.2em;
+        border-width: .15em;
     }
     button.large {
         width: 2em;
         height: 2em;
+        border-width: .3em;
     }
 </style>
