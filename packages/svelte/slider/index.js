@@ -1,0 +1,1 @@
+export { default as SlotsSlider } from "./SlotsSlider.svelte";

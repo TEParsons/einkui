@@ -1,6 +1,7 @@
 <script>
     /**  */
     import { Icon } from "../icon";
+    import { Label } from "../label";
     import { translate } from "..";
 
     /**
@@ -41,6 +42,9 @@
         ...props
     } = $props()
 
+    // resolve ID
+    let _id = $props.id()
+    let id = $derived(props.id || _id)
     // label is overridden when confirming
     let label = $derived(confirming ? translate("Confirm?") : _label)
     // name to use when referring to this button, falling back to tooltip if there is no text label
@@ -57,6 +61,7 @@
     class:stretch
 >
     <button
+        id={id}
         onclick={evt => {
             if (confirmation && !confirming) {
                 confirming = true
@@ -92,15 +97,10 @@
         {/if}
 
         {#if label}
-            <div
-                class=label
-            >
-                {#if typeof label === "function"}
-                    {@render label()}
-                {:else}
-                    {label}
-                {/if}
-            </div>
+            <Label
+                value={label}
+                for={id}
+            />
         {/if}
     </button>
     {#if menu}
@@ -146,10 +146,6 @@
         color: var(--einkui-color-crust);
         border-color: var(--einkui-color-crust);
     }
-    button .label {
-        hyphens: auto;
-        line-height: 1em;
-    }
 
     /* Dropdown menu */
     button.has-dropdown {
@@ -194,12 +190,9 @@
 
     /* Stretch */
     button.stretch {
+        text-align: left;
         width: auto;
         flex: 1;
-    }
-    button.stretch .label {
-        flex-shrink: 1;
-        text-align: left;
     }
     .button-container.stretch { 
         flex: 1; 
