@@ -23,7 +23,7 @@
 >
     {#if typeof value === "function"}
         {@render value()}
-    {:else if typeof value === "string" && value.includes("\n")}
+    {:else if typeof value === "string" && (value.includes("\n") || value.includes("# "))}
         {@html marked.parse(value)}
     {:else if typeof value === "string"}
         {@html marked.parseInline(value)}
