@@ -68,7 +68,7 @@
             } else {
                 confirming = false
 
-                return onclick(evt)
+                return onclick?.(evt)
             }
         }}
         class:small

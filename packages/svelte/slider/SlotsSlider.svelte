@@ -1,6 +1,6 @@
 <script>
+    import SliderContainer from "./SliderContainer.svelte"
     import { Checkbox } from "../checkbox";
-    import { Label } from "../label";
 
     /**
      * @import { Snippet } from 'svelte'
@@ -9,6 +9,7 @@
      * @property {number} value Value of this slider, how many slots are filled
      * @property {number} total Total number of slots in this slider
      * @property {string|Snippet} [label] Label for this slider, or a snippet to render in its place
+     * @property {true|Snippet} [ctrls] Optional numeric controls above the slider
      * @property {(evt:PointerEvent, value:number) => undefined} onchange Function to call when this slider changes value
      * @property {boolean} inverse Treat value as how many slots are empty, rather than filled
      * @property {boolean} round Circular checkboxes
@@ -26,6 +27,7 @@
         value=$bindable(),
         total,
         label=undefined,
+        ctrls=undefined,
         onchange=(evt, value) => {},
         inverse=false,
         round=false,
@@ -38,63 +40,52 @@
         ...props
     } = $props()
     
-    // resolve ID
-    let _id = $props.id()
-    let id = $derived(props.id || _id)
     // work out indices of each item
-    let indices = $derived(
-        flip
-        ? Array.from({ length: total }, (_, i) => i + 1).toReversed()
-        : Array.from({ length: total }, (_, i) => i + 1)
-    )
+    let indices = $derived(Array.from({ length: total }, (_, i) => i + 1))
     // clip value to within range
     $effect(() => {
-        if (value > total) value = total
         if (value < 0) value = 0
+        if (value > total) value = total
     })
 </script>
-<div class=container>
-    {#if label}
-        <Label 
-            value={label}
-            for={id}
-        />
-    {/if}
-    <div 
-        id={id}
-        class=slider
-        class:vertical
-        {...props}
-    >
-        {#each indices as i}
-            <Checkbox 
-                checked={ i <= (inverse ? total - value : value)}
-                ontoggle={
-                    (evt, checked) => {
-                        if (!readonly) {
-                            // add to or subtract from total based on position
-                            value += (inverse ? total - value : value) < i ? (inverse ? -1 : 1) : (inverse ? 1 : -1)
+
+<SliderContainer
+    label={label}
+    ctrls={ctrls}
+>
+    {#snippet slider(id, received)}
+        <div 
+            id={id}
+            class=slider
+            class:vertical
+            class:flip
+            {...props}
+        >
+            {#each indices as i}
+                <Checkbox 
+                    checked={ i <= (inverse ? total - value : value)}
+                    ontoggle={
+                        (evt, checked) => {
+                            if (!readonly) {
+                                // add to or subtract from value based on position and inverse
+                                value += (inverse ? total - value : value) < i ? (inverse ? -1 : 1) : (inverse ? 1 : -1)
+                            }
+                            // call onchange function
+                            onchange?.(evt, value)
                         }
-                        // call onchange function
-                        onchange(evt, value)
                     }
-                }
-                small={small}
-                large={large}
-                round={round}
-                readonly
-                disabled={disabled}
-            />
-        {/each}
-    </div>
-</div>
+                    small={small}
+                    large={large}
+                    round={round}
+                    readonly
+                    disabled={disabled}
+                />
+            {/each}
+        </div>
+    {/snippet}
+</SliderContainer>
+
 <style>
-    .container {
-        display: flex;
-        flex-direction: column;
-        gap: .5em;
-        align-items: start;
-    }
     .slider {
         display: flex;
         flex-direction: row;
@@ -103,7 +94,16 @@
     }
 
     /* Orientation */
+    .slider:not(.vertical) {
+        flex-direction: row;
+    }
+    .slider:not(.vertical).flip {
+        flex-direction: row-reverse;
+    }
     .slider.vertical {
         flex-direction: column;
+    }
+    .slider.flip.vertical {
+        flex-direction: column-reverse
     }
 </style>
