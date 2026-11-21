@@ -9,6 +9,7 @@
      * @property {boolean} tight Less padding
      * @property {boolean} comfy More padding
      * @property {boolean} ghost Removes border to show just content
+     * @property {boolean} center Center content in this card
      * @property {boolean} stretch Allow this card to stretch within its layout
      * @property {Snippet} [header] Elements rendered at the top of the card, separated by a line
      * @property {Snippet} [footer] Elements rendered at the bottom of the card, separated by a line
@@ -22,6 +23,7 @@
         tight=false,
         comfy=false,
         ghost=false,
+        center=false,
         stretch=false,
         header=undefined,
         footer=undefined,
@@ -42,6 +44,7 @@
     class:tight
     class:comfy
     class:ghost
+    class:center
     class:stretch
     {...props}
 >
@@ -118,7 +121,10 @@
         border-color: transparent;
     }
 
-    /* Stretch */
+    /* Layout */
+    .card.center {
+        align-items: center;
+    }
     .card.stretch {
         width: auto;
         flex: 1;
