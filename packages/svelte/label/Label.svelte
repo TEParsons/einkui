@@ -1,5 +1,6 @@
 <script>
     import { marked } from "marked";
+
     /**
      * @import { Snippet } from 'svelte'
      * 
@@ -15,10 +16,17 @@
         for:_for=undefined,
         ...props
     } = $props()
+
+    // resolve id
+    let _id = $props.id()
+    let id = $derived(props.id || _id)
+    // connect this label to the element it's for
+    $effect(() => {
+        document.getElementById(_for)?.setAttribute("aria-labelledby", id)
+    })
 </script>
 
-<label
-    for={_for}
+<span
     {...props}
 >
     {#if typeof value === "function"}
@@ -30,10 +38,10 @@
     {:else}
         {value}
     {/if}
-</label>
+</span>
 
 <style>
-    label {
+    span {
         hyphens: auto;
         line-height: 1em;
     }
