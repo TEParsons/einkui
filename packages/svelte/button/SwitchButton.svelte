@@ -17,6 +17,7 @@
      * @property {boolean} large Larger icon
      * @property {boolean} comfy More padding
      * @property {boolean} ghost Removes border to show just text/icon/dropdown arrow
+     * @property {boolean} square Remove border-radius to square the corners
      * @property {boolean} vertical Arrange options vertically rather than horizontally
      * @property {boolean} flip Flip such that the first item is right/bottom rather than left/top
      * @property {boolean} stretch Allow this button to stretch within its layout
@@ -36,9 +37,11 @@
         tight=false,
         comfy=false,
         ghost=false,
+        square=false,
         vertical=false,
         flip=false,
         stretch=false,
+        center=false,
         readonly=$bindable(),
         disabled=$bindable(),
         ...props
@@ -67,7 +70,9 @@
         ontoggle?.(evt, checked)
     }}
     ghost={ghost}
+    square={square}
     stretch={stretch}
+    center={center}
     flush
     bind:readonly={readonly}
     bind:disabled={disabled}

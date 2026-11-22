@@ -17,7 +17,9 @@
      * @property {boolean} large Larger icon
      * @property {boolean} comfy More padding
      * @property {boolean} ghost Removes border to show just text/icon/dropdown arrow
+     * @property {boolean} square Remove border-radius to square the corners
      * @property {boolean} stretch Allow this button to stretch within its layout
+     * @property {boolean} center Center content within this button
      * @property {boolean} readonly Fix the checkbox's value in place
      * @property {boolean} disabled Disable the button
      * @property {object<any>} props Other props are passed through to the underlying <Button>
@@ -37,7 +39,9 @@
         large=false,
         comfy=false,
         ghost=false,
+        square=false,
         stretch=false,
+        center=false,
         readonly=$bindable(),
         disabled=$bindable(),
         ...props
@@ -68,8 +72,10 @@
     large={large}
     comfy={comfy}
     ghost={ghost}
+    square={square}
     primary={checked}
     stretch={stretch}
+    center={center}
     bind:readonly={readonly}
     bind:disabled={disabled}
     {...passthrough}
