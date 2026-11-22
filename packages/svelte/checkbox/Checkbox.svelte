@@ -9,7 +9,7 @@
      * @property {0|0.5|1|2} checked Value of this checkbox - normally toggles between 0 and 1, but other props enable other values
      * @property {string|Snippet} [label] Label for this checkbox, or a snippet to render in its place
      * @property {(evt:PointerEvent, checked:0|0.5|1|2) => undefined} ontoggle Function to call when this checkbox changes value
-     * @property {boolean} inverse Allow this checkbox to be inverse checked (checked = -1)
+     * @property {boolean} negative Allow this checkbox to be negative checked (checked = -1)
      * @property {boolean} half Allow this checkbox to be half checked (checked = 0.5)
      * @property {boolean} double Allow this checkbox to be double checked (checked = 2)
      * @property {boolean} round Circular checkbox
@@ -24,8 +24,8 @@
     let {
         checked=$bindable(),
         label=undefined,
-        ontoggle=(evt, value) => {},
-        inverse=false,
+        ontoggle=(evt, checked) => {},
+        negative=false,
         half=false,
         double=false,
         round=false,
@@ -41,7 +41,7 @@
     let id = $derived(props.id || _id)
     // figure out allowed states
     let states = $derived([
-        ...inverse ? [-1] : [],
+        ...negative ? [-1] : [],
         0,
         ...half ? [0.5] : [],
         1,
@@ -63,7 +63,7 @@
             // run ontoggle function
             ontoggle(evt, checked)
         }}
-        class:inverse-checked={checked===-1}
+        class:negative-checked={checked===-1}
         class:half-checked={checked === 0.5}
         class:checked={checked === 1 || checked === true}
         class:double-checked={checked === 2}
@@ -101,7 +101,7 @@
     button:disabled {
         border-color: var(--einkui-color-crust);
     }
-    button.inverse-checked {
+    button.negative-checked {
         border-style: dashed;
         border-width: .2em;
     }

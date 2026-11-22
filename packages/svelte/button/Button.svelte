@@ -1,5 +1,4 @@
 <script>
-    /**  */
     import { Icon } from "../icon";
     import { Label } from "../label";
     import { translate } from "..";
@@ -29,7 +28,7 @@
         label:_label=undefined,
         icon=undefined,
         menu=undefined,
-        onclick:onclick=undefined,
+        onclick=(evt) => {},
         confirmation=false,
         small=false,
         tight=false,
