@@ -10,6 +10,7 @@
      * @property {boolean} comfy More padding
      * @property {boolean} primary Emphasize this card by flipping its colors
      * @property {boolean} ghost Removes border to show just content
+     * @property {boolean} square Remove border-radius to square the corners
      * @property {boolean} center Center content in this card
      * @property {boolean} stretch Allow this card to stretch within its layout
      * @property {Snippet} [header] Elements rendered at the top of the card, separated by a line
@@ -25,6 +26,7 @@
         comfy=false,
         primary=false,
         ghost=false,
+        square=false,
         center=false,
         stretch=false,
         header=undefined,
