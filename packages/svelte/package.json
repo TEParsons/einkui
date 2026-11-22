@@ -26,6 +26,7 @@
     "svelte": "^5.0.0"
   },
   "dependencies": {
-    "marked": "^18.2.1"
+    "marked": "^18.2.1",
+    "svelte-gestures": "^5.2.2"
   }
 }

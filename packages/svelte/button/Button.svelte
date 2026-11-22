@@ -18,8 +18,10 @@
      * @property {boolean} large Larger icon
      * @property {boolean} comfy More padding
      * @property {boolean} ghost Removes border to show just text/icon/dropdown arrow
+     * @property {boolean} square Remove border-radius to square the corners
      * @property {boolean} primary Style this as a "primary" button
      * @property {boolean} stretch Allow this button to stretch within its layout
+     * @property {boolean} center Center content within this button
      * @property {boolean} disabled Disable the button
      * @property {object<any>} props Other props are passed through to the underlying <button>
      */
@@ -37,8 +39,10 @@
         large=false,
         comfy=false,
         ghost=false,
+        square=false,
         primary=false,
         stretch=false,
+        center=false,
         disabled=$bindable(),
         ...props
     } = $props()
@@ -78,8 +82,10 @@
         class:large
         class:comfy
         class:ghost
+        class:square
         class:primary
         class:stretch
+        class:center
         class:has-dropdown={menu !== undefined}
         aria-label={props["aria-label"] ?? name}
         disabled={disabled}
@@ -119,6 +125,7 @@
             class:large
             class:comfy
             class:ghost
+            class:square
             class:primary
             aria-label={props["aria-label"] ?? name + translate(" dropdown")}
             disabled={disabled}
@@ -145,13 +152,13 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-items: center;
         gap: .5rem;
         font-family: var(--einkui-font-main);
     }
     button:disabled {
         color: var(--einkui-color-crust);
-        border-color: var(--einkui-color-crust);
+        border-color: var(--einkui-color-mantle);
+        background-color: var(--einkui-color-mantle);
     }
 
     /* Dropdown menu */
@@ -190,15 +197,26 @@
         background-color: transparent;
         border-color: transparent;
     }
+    button.ghost:disabled {
+        background-color: var(--einkui-color-mantle);
+    }
+    button.square {
+        border-radius: 0;
+    }
     button.primary {
         background-color: var(--einkui-color-overlay);
         color: var(--einkui-color-text-on-overlay);
+    }
+    button.primary:disabled {
+        background-color: var(--einkui-color-crust);
+        border-color: var(--einkui-color-crust);
+        color: var(--einkui-color-mantle);
     }
     button.primary.dropdown {
         border-left-color: var(--einkui-color-text-on-overlay);
     }
 
-    /* Stretch */
+    /* Layout */
     button.stretch {
         text-align: left;
         width: auto;
@@ -206,5 +224,8 @@
     }
     .button-container.stretch { 
         flex: 1; 
+    }
+    button.center {
+        justify-content: center;
     }
 </style>

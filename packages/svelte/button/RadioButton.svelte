@@ -33,7 +33,7 @@
         label=undefined,
         icon=undefined,
         menu=undefined,
-        ontoggle=(evt, checked, value) => undefined,
+        onselect=(evt, value) => undefined,
         flush=false,
         small=false,
         tight=false,
@@ -65,7 +65,7 @@
             selection = value
         }
         // run ontoggle function
-        ontoggle(evt, checked, value)
+        onselect(evt, value)
     }}
     flush={flush}
     small={small}
