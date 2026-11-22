@@ -12,6 +12,7 @@
      * @property {Snippet} [menu] Snippet defining a menu - if defined, gives this button a dropdown arrow which opens the menu
      * @property {(evt:PointerEvent) => undefined} onclick Function to call when this button is pressed
      * @property {boolean} confirmation Has to be clicked a second time to confirm
+     * @property {boolean} flush No padding
      * @property {boolean} small Smaller icon
      * @property {boolean} tight Less padding
      * @property {boolean} large Larger icon
@@ -30,6 +31,7 @@
         menu=undefined,
         onclick=(evt) => {},
         confirmation=false,
+        flush=false,
         small=false,
         tight=false,
         large=false,
@@ -46,8 +48,8 @@
     let id = $derived(props.id || _id)
     // label is overridden when confirming
     let label = $derived(confirming ? translate("Confirm?") : _label)
-    // name to use when referring to this button, falling back to tooltip if there is no text label
-    let name = $derived(typeof label === "string" ? label : tooltip);
+    // name to use when referring to this button, falling back to aria-label if there is no text label
+    let name = $derived(typeof label === "string" ? label : props["aria-label"]);
     // keep track of confirmation state
     let confirming = $state.raw(false);
     // keep track of menu shown
@@ -70,6 +72,7 @@
                 return onclick?.(evt)
             }
         }}
+        class:flush
         class:small
         class:tight
         class:large
@@ -84,7 +87,7 @@
     >
         {#if icon}
             {#if typeof icon === "function"}
-                {@render icon(status)}
+                {@render icon(id)}
             {:else}
                 <Icon
                     src={icon}
@@ -96,10 +99,14 @@
         {/if}
 
         {#if label}
-            <Label
-                value={label}
-                for={id}
-            />
+            {#if typeof label === "function"}
+                {@render label(id)}
+            {:else}
+                <Label
+                    value={label}
+                    for={id}
+                />
+            {/if}
         {/if}
     </button>
     {#if menu}
@@ -107,6 +114,7 @@
             onclick={evt => menuShown = !menuShown}
             class=dropdown
             class:small
+            class:flush
             class:tight
             class:large
             class:comfy
@@ -160,6 +168,9 @@
     /* Padding */
     button {
         padding: .5em .7em;
+    }
+    button.flush {
+        padding: 0;
     }
     button.tight {
         padding: .3em .4em;

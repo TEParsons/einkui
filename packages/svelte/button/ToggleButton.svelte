@@ -11,6 +11,7 @@
      * @property {Snippet} [menu] Snippet defining a menu - if defined, gives this button a dropdown arrow which opens the menu
      * @property {(evt:PointerEvent, checked:boolean) => undefined} ontoggle Function to call when this button is toggled
      * @property {boolean} confirmation Has to be clicked a second time to confirm
+     * @property {boolean} flush No padding
      * @property {boolean} small Smaller icon
      * @property {boolean} tight Less padding
      * @property {boolean} large Larger icon
@@ -30,6 +31,7 @@
         menu=undefined,
         ontoggle=(evt, checked) => undefined,
         confirmation=false,
+        flush=false,
         small=false,
         tight=false,
         large=false,

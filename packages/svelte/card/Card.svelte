@@ -8,6 +8,7 @@
      * @property {boolean} flush No padding
      * @property {boolean} tight Less padding
      * @property {boolean} comfy More padding
+     * @property {boolean} primary Emphasize this card by flipping its colors
      * @property {boolean} ghost Removes border to show just content
      * @property {boolean} center Center content in this card
      * @property {boolean} stretch Allow this card to stretch within its layout
@@ -22,6 +23,7 @@
         flush=false,
         tight=false,
         comfy=false,
+        primary=false,
         ghost=false,
         center=false,
         stretch=false,
@@ -43,6 +45,7 @@
     class:flush
     class:tight
     class:comfy
+    class:primary
     class:ghost
     class:center
     class:stretch
@@ -119,6 +122,10 @@
     .card.ghost {
         background-color: transparent;
         border-color: transparent;
+    }
+    .card.primary {
+        background-color: var(--einkui-color-overlay);
+        color: var(--einkui-color-text-on-overlay);
     }
 
     /* Layout */
