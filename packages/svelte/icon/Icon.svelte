@@ -6,6 +6,8 @@
      * @property {string} src File path for the icon, or a character
      * @property {string} [alt] Alt text to display when the icon can't be loaded
      * @property {any} size Size of the icon
+     * @property {boolean} square Remove border radius to square the corners
+     * @property {boolean} round Turn icon into a circle
      * @property {object<any>} props Other props are passed through to the underlying <svg>, <img> or <span>
      */
 
@@ -14,6 +16,8 @@
         src,
         alt=undefined,
         size="1em",
+        square=false,
+        round=false,
         ...props
     } = $props()
 </script>
@@ -23,6 +27,8 @@
     <svg 
         class=icon
         style:width={size}
+        class:square
+        class:round
         {...props}
     >
         <title>{alt || src}</title>
@@ -35,6 +41,8 @@
         src={src} 
         alt={alt || src}
         style:width={size}
+        class:square
+        class:round
         {...props}
     />
 {:else }
@@ -43,6 +51,8 @@
         class=icon
         style:font-family="var(--einkui-font-symbol)"
         style:font-size={size}
+        class:square
+        class:round
         {...props}
     >
         {src}
@@ -58,5 +68,12 @@
         align-self: center;
         justify-self: center;
         vertical-align: center;
+        border-radius: .5em;
+    }
+    .icon.square {
+        border-radius: 0;
+    }
+    .icon.round {
+        border-radius: 50%;
     }
 </style>
