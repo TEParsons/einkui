@@ -1,5 +1,6 @@
 <script>
     import ToggleButton from "./ToggleButton.svelte";
+    import { onMount } from "svelte";
 
     /**
      * @import { Snippet } from 'svelte'
@@ -12,6 +13,7 @@
      * @property {string|Snippet} [icon] Path to the icon for this button, or a snippet to render in its place
      * @property {Snippet} [menu] Snippet defining a menu - if defined, gives this button a dropdown arrow which opens the menu
      * @property {(evt:PointerEvent, checked:boolean, value:any) => undefined} ontoggle Function to call when this button is toggled
+     * @property {boolean} initial Start off with this button selected, if no others are
      * @property {boolean} confirmation Has to be clicked a second time to confirm
      * @property {boolean} flush No padding
      * @property {boolean} small Smaller icon
@@ -36,6 +38,7 @@
         icon=undefined,
         menu=undefined,
         onselect=(evt, value) => undefined,
+        initial=false,
         flush=false,
         small=false,
         tight=false,
@@ -56,7 +59,14 @@
         ...other 
     }) => other)(props))
 
+    // checked reflects selection
     $effect(() => checked = selection === value)
+    // if initial and nothing else is selected, select this button
+    onMount(() => {
+        if (selection === undefined && initial) {
+            selection = value
+        }
+    })
 </script>
 
 <ToggleButton

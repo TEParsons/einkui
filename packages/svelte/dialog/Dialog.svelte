@@ -44,7 +44,7 @@
         NO,
         HELP,
         ...other 
-    }) => other)(props))
+    }) => other)(context.buttons))
     // show/hide according to bindable
     $effect(() => {
         if (shown) {
@@ -68,16 +68,21 @@
     >
         {@render children?.()}
     </div>
-    <div class=dialog-buttons>
-        {@render context.buttons.HELP?.snippet()}
-        <div class=gap></div>
-        {@render context.buttons.CANCEL?.snippet()}
-        {@render buttonsSnippet()}
-        {@render context.buttons.YES?.snippet()}
-        {@render context.buttons.NO?.snippet()}
-        {@render context.buttons.APPLY?.snippet()}
-        {@render context.buttons.OK?.snippet()}
-    </div>
+    {#if buttonsSnippet}
+        <div class=dialog-buttons>
+            {@render context.buttons.HELP?.snippet()}
+            <div class=gap></div>
+            {@render context.buttons.CANCEL?.snippet()}
+            {@render buttonsSnippet()}
+            {#each Object.values(unpositionedButtons) as otherButton}
+                {@render otherButton.snippet?.()}
+            {/each}
+            {@render context.buttons.YES?.snippet()}
+            {@render context.buttons.NO?.snippet()}
+            {@render context.buttons.APPLY?.snippet()}
+            {@render context.buttons.OK?.snippet()}
+        </div>
+    {/if}
 </dialog>
 
 <style>
@@ -96,24 +101,28 @@
         flex-direction: row;
         gap: .5rem;
         border-top: 1px solid var(--einkui-color-mantle);
-        padding-top: var(--einkui-card-marginals-padding);
-        margin-top: var(--einkui-card-marginals-padding);
+        padding: var(--einkui-dialog-marginals-padding);
+        margin-top: var(--einkui-dialog-marginals-padding);
     }
     .gap {
         flex-grow: 1
     }
 
     /* Spacing */
+    dialog {
+        padding: .5em .7em;
+        --einkui-dialog-marginals-padding: .5em;
+    }
     .flush {
         padding: 0;
-        --einkui-card-marginals-padding: 0;
+        --einkui-dialog-marginals-padding: 0;
     }
     .tight {
         padding: .3em .4em;
-        --einkui-card-marginals-padding: .3em;
+        --einkui-dialog-marginals-padding: .3em;
     }
     .comfy {
         padding: .8em 1.1em;
-        --einkui-card-marginals-padding: .8em;
+        --einkui-dialog-marginals-padding: .8em;
     }
 </style>

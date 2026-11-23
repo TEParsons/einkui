@@ -134,7 +134,7 @@
     /* Spacing */
     .array-item,
     .misc-item {
-        padding: .5em .7em;
+        padding: .25em .7em;
     }
     
     .array.flush .array-item,
@@ -147,12 +147,12 @@
     .array.tight .misc-item,
     .array-item.tight,
     .misc-item.tight {
-        padding: .25em .7em;
+        padding: .125em .7em;
     }
     .array.comfy .array-item,
     .array.comfy .misc-item,
     .array-item.comfy,
     .misc-item.comfy {
-        padding: 1em .7em;
+        padding: .5em .7em;
     }
 </style>
