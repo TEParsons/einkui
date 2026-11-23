@@ -40,6 +40,7 @@
 
 <div 
     class=container
+    class:stretch
     {...props}
 >
     <div
@@ -67,10 +68,13 @@
     .container {
         display: flex;
         flex-direction: column;
+        min-height: 0;
     }
     .notebook-tabs {
         display: flex;
         flex-direction: row;
     }
-    
+    .stretch {
+        flex-grow: 1;
+    }
 </style>

@@ -118,6 +118,8 @@
 
 <style>
     .notebook-page {
-        flex-grow: 1;
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
     }
 </style>
