@@ -31,15 +31,15 @@
         ...props
     } = $props()
 
+    // operate on a temporary state which is applied on OK
+    let temp = $state.raw();
     // context to pass to Option elements
     let context = $state({
-        getSelection: () => selection,
-        setSelection: (value) => selection = value,
+        getSelection: () => temp,
+        setSelection: (value) => temp = value,
         options: {}
     })
-    setContext("einkui-select", context);
-    // keep track of value on open to restore it on cancel
-    let restore = $state.raw();
+    setContext("einkui-select", context);    
 </script>
 
 <div class=container>
@@ -48,8 +48,8 @@
         ontoggle={(evt, expanded) => {
             // only on open, not on close
             if (!expanded) return
-            // store selection
-            restore = $state.snapshot(selection)
+            // update temp on open
+            temp = $state.snapshot(selection)
         }}
         flush={flush}
         tight={tight}
@@ -93,11 +93,11 @@
         {@render children?.()}
 
         {#snippet buttons()}
-            <DialogButton action=OK />
             <DialogButton 
-                action=CANCEL 
-                onclick={evt => selection = $state.snapshot(restore)}
+                action=OK 
+                onclick={evt => selection = $state.snapshot(temp)}
             />
+            <DialogButton action=CANCEL />
         {/snippet}
     </DetailsButton>
 </div>
