@@ -8,6 +8,7 @@
      * @typedef Props
      * @property {boolean} shown Whether this dialog is shown, bindable
      * @property {() => undefined} onopen Function to call when dialog opens
+     * @property {() => undefined} onclose Function to call when the dialog closes
      * @property {boolean} flush No padding
      * @property {boolean} tight Less padding
      * @property {boolean} comfy More padding
@@ -20,6 +21,7 @@
     let {
         shown=$bindable(),
         onopen=() => {},
+        onclose=() => {},
         flush=false,
         tight=false,
         comfy=false,
@@ -51,6 +53,7 @@
             untrack(() => onopen())
             context.handle.showModal()
         } else {
+            untrack(() => onclose())
             context.handle.close()
         }
     })
