@@ -5,6 +5,7 @@
     import { Array, ArrayItem } from "../array";
     import { DetailsButton } from "../details";
     import { DialogButton } from "../dialog";
+    import InputContainer from "../input/InputContainer.svelte";
     import { setContext } from "svelte";
 
     /**
@@ -12,6 +13,7 @@
      * 
      * @typedef Props
      * @property {boolean} selection Currently selected value from options
+     * @property {string|Snippet} label Label for this control, or snippet to render in its place
      * @property {boolean} flush No padding on button, dialog and options array
      * @property {boolean} tight Less padding on button, dialog and options array
      * @property {boolean} comfy More padding on button, dialog and options array
@@ -23,6 +25,7 @@
     /** @type {Props} */
     let {
         selection=$bindable(),
+        label:_label=undefined,
         flush=false,
         tight=false,
         comfy=false,
@@ -42,68 +45,68 @@
     setContext("einkui-select", context);    
 </script>
 
-<div class=container>
-    <DetailsButton
-        icon={context.options[selection]?.icon || context.placeholder?.icon}
-        ontoggle={(evt, expanded) => {
-            // only on open, not on close
-            if (!expanded) return
-            // update temp on open
-            temp = $state.snapshot(selection)
-        }}
-        flush={flush}
-        tight={tight}
-        comfy={comfy}
-        stretch
-        square
-        ghost
-        {...props}
-    >
-        {#snippet summary()}
-            <div style:display=none>
-                {@render children?.()}
-            </div>
-        {/snippet}
-
-        {#snippet label()}
-            <Label
-                value={context.options[selection]?.label || context.placeholder?.label}
-            />
-            <div style:flex-grow=1></div>
-            <Icon
-                src=▼
-                size=.5em
-            />
-        {/snippet}
-
-        <Array 
+<InputContainer 
+    label={_label}
+    line
+>
+    {#snippet ctrl(id, parentProps)}
+        <DetailsButton
+            icon={context.options[selection]?.icon || context.placeholder?.icon}
+            ontoggle={(evt, expanded) => {
+                // only on open, not on close
+                if (!expanded) return
+                // update temp on open
+                temp = $state.snapshot(selection)
+            }}
             flush={flush}
+            title={_label}
             tight={tight}
             comfy={comfy}
-            horizontal={horizontal}
+            stretch
+            square
             ghost
+            {...props}
         >
-            {#each Object.values(context.options) as option}
-                <ArrayItem>
-                    {@render option.snippet?.()}
-                </ArrayItem>
-            {/each}
-        </Array>
+            {#snippet summary()}
+                <div style:display=none>
+                    {@render children?.()}
+                </div>
+            {/snippet}
 
-        {@render children?.()}
+            {#snippet label()}
+                <Label
+                    value={context.options[selection]?.label || context.placeholder?.label}
+                />
+                <div style:flex-grow=1></div>
+                <Icon
+                    src=▼
+                    size=.5em
+                />
+            {/snippet}
 
-        {#snippet buttons()}
-            <DialogButton 
-                action=OK 
-                onclick={evt => selection = $state.snapshot(temp)}
-            />
-            <DialogButton action=CANCEL />
-        {/snippet}
-    </DetailsButton>
-</div>
+            <Array 
+                flush={flush}
+                tight={tight}
+                comfy={comfy}
+                horizontal={horizontal}
+                ghost
+            >
+                {#each Object.values(context.options) as option}
+                    <ArrayItem>
+                        {@render option.snippet?.()}
+                    </ArrayItem>
+                {/each}
+            </Array>
 
-<style>
-    .container {
-        border-bottom: 1px solid var(--einkui-color-overlay);
-    }
-</style>
+            {@render children?.()}
+
+            {#snippet buttons()}
+                <DialogButton 
+                    action=OK 
+                    onclick={evt => selection = $state.snapshot(temp)}
+                />
+                <DialogButton action=CANCEL />
+            {/snippet}
+        </DetailsButton>
+    {/snippet}
+</InputContainer>

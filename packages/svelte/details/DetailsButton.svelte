@@ -8,6 +8,7 @@
      * @typedef Props
      * @property {boolean} expanded Whether the dialog is shown
      * @property {(evt:undefined, expanded:boolean) => undefined} ontoggle Function to execute when the expanded state changes
+     * @property {string|Snippet} [title] Title for the dialog
      * @property {string|Snippet} [label] Label for this button, or a snippet to render in its place
      * @property {string|Snippet} [icon] Path to the icon for this button, or a snippet to render in its place
      * @property {boolean} flush No padding on the button and dialog
@@ -29,6 +30,7 @@
     let {
         expanded=$bindable(),
         ontoggle=(evt, expanded) => {},
+        title=undefined,
         label=undefined,
         icon=undefined,
         flush=false,
@@ -49,6 +51,7 @@
 <Details
     bind:expanded={expanded}
     ontoggle={ontoggle}
+    title={title}
     buttons={buttons}
     flush={flush}
     tight={tight}

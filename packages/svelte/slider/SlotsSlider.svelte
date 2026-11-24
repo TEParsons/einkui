@@ -1,5 +1,5 @@
 <script>
-    import SliderContainer from "./SliderContainer.svelte"
+    import InputContainer from "../input/InputContainer.svelte"
     import { Checkbox } from "../checkbox";
 
     /**
@@ -49,11 +49,10 @@
     })
 </script>
 
-<SliderContainer
+<InputContainer
     label={label}
-    ctrls={ctrls}
 >
-    {#snippet slider(id, received)}
+    {#snippet ctrl(id, received)}
         <div 
             id={id}
             class=slider
@@ -83,7 +82,9 @@
             {/each}
         </div>
     {/snippet}
-</SliderContainer>
+
+    {@render ctrls?.()}
+</InputContainer>
 
 <style>
     .slider {

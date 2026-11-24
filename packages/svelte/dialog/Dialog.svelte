@@ -1,5 +1,5 @@
 <script>
-    import { Card } from "../card";
+    import { Label } from "../label";
     import { untrack, setContext } from "svelte";
 
     /**
@@ -9,6 +9,7 @@
      * @property {boolean} shown Whether this dialog is shown, bindable
      * @property {() => undefined} onopen Function to call when dialog opens
      * @property {() => undefined} onclose Function to call when the dialog closes
+     * @property {string|Snippet} [title] Title to display at the top of this dialog
      * @property {boolean} flush No padding
      * @property {boolean} tight Less padding
      * @property {boolean} comfy More padding
@@ -22,6 +23,7 @@
         shown=$bindable(),
         onopen=() => {},
         onclose=() => {},
+        title=undefined,
         flush=false,
         tight=false,
         comfy=false,
@@ -66,6 +68,15 @@
     class:comfy
     {...props}
 >
+    {#if title}
+        <div 
+            class=dialog-title
+        >
+            <Label 
+                value={title}
+            />
+        </div>
+    {/if}
     <div
         class=dialog-content
     >
@@ -106,6 +117,10 @@
         border-top: 1px solid var(--einkui-color-mantle);
         padding: var(--einkui-dialog-marginals-padding);
         margin-top: var(--einkui-dialog-marginals-padding);
+    }
+    .dialog-title {
+        margin-bottom: calc(var(--einkui-dialog-marginals-padding) * 2);
+        font-size: 1.5em;
     }
     .gap {
         flex-grow: 1
