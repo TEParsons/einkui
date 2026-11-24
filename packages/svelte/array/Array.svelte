@@ -155,4 +155,8 @@
     .misc-item.comfy {
         padding: .5em .7em;
     }
+
+    .misc-item:empty {
+        display: none;
+    }
 </style>
