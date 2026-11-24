@@ -79,6 +79,8 @@
         {/each}
     </Array>
 
+    {@render children?.()}
+
     {#snippet buttons()}
         <DialogButton action=OK />
         <DialogButton 
