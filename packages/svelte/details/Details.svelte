@@ -3,12 +3,32 @@
     import { Dialog, DialogButton } from "../dialog";
     import { translate } from "..";
 
+    /**
+     * @import { Snippet } from 'svelte'
+     * 
+     * @typedef Props
+     * @property {boolean} expanded Whether the dialog is shown
+     * @property {(evt:undefined, expanded:boolean) => undefined} ontoggle Function to execute when the expanded state changes
+     * @property {Snippet} [summary] Content to show as a summary when not expanded
+     * @property {Snippet} [toggle] Button to toggle expanded states, leave as undefined to use the default "Show more..." - snippet will receive get/set functions for the expanded state
+     * @property {Snippet} [buttons] Buttons to include in the dialog
+     * @property {boolean} flush No padding on dialog
+     * @property {boolean} tight Less padding on dialog
+     * @property {boolean} comfy More padding on dialog
+     * @property {Snippet} children Child elements are rendered in the dialog
+     * @property {object<any>} props Other props are passed through to the underlying <Dialog>
+     */
+
+    /** @type {Props} */
     let {
         expanded=$bindable(),
         ontoggle=(evt, expanded) => {},
         summary=undefined,
         toggle=undefined,
         buttons=undefined,
+        flush=false,
+        tight=false,
+        comfy=false,
         children,
         ...props
     } = $props()
@@ -23,6 +43,9 @@
         label={translate("Show more...")}
         onclick={evt => setExpanded(true)}
         primary={getExpanded()}
+        flush={flush}
+        tight={tight}
+        comfy={comfy}
         stretch
         ghost
     />
@@ -44,6 +67,10 @@
     buttons={buttons || defaultButtons}
     onopen={evt => ontoggle?.(evt, true)}
     onclose={evt => ontoggle?.(evt, false)}
+    flush={flush}
+    tight={tight}
+    comfy={comfy}
+    {...props}
 >
     {@render children?.()}
 </Dialog>

@@ -3,9 +3,24 @@
     import { Icon } from "../icon";
     import { Label } from "../label";
     import { Array, ArrayItem } from "../array";
-    import { Dialog, DialogButton } from "../dialog";
+    import { Details } from "../details";
+    import { DialogButton } from "../dialog";
     import { setContext } from "svelte";
 
+    /**
+     * @import { Snippet } from 'svelte'
+     * 
+     * @typedef Props
+     * @property {boolean} selection Currently selected value from options
+     * @property {boolean} flush No padding on button, dialog and options array
+     * @property {boolean} tight Less padding on button, dialog and options array
+     * @property {boolean} comfy More padding on button, dialog and options array
+     * @property {boolean} horizontal Arrange options array horizontally rather than vertically
+     * @property {Snippet} children Child elements are rendered after options array in dialog
+     * @property {object<any>} props Other props are passed through to the underlying <Details>
+     */
+
+    /** @type {Props} */
     let {
         selection=$bindable(),
         flush=false,
@@ -25,46 +40,53 @@
     setContext("einkui-select", context);
     // keep track of value on open to restore it on cancel
     let restore = $state.raw();
-    // state which shows the dialog
-    let showDlg = $state.raw(false);
 </script>
 
-<div class=container>
-    <Button 
-        icon={context.options[selection]?.icon || context.placeholder?.icon}
-        onclick={evt => showDlg = true}
-        flush={flush}
-        tight={tight}
-        comfy={comfy}
-        stretch
-        square
-        ghost
-    >
-        {#snippet label()}
-            <Label
-                value={context.options[selection]?.label || context.placeholder?.label}
-            />
-            <div style:flex-grow=1></div>
-            <Icon
-                src=▼
-                size=.5em
-            />
-        {/snippet}
-    </Button>
-    <div style:display=none>
-        {@render children?.()}
-    </div>
-</div>
 
-
-
-<Dialog
-    bind:shown={showDlg}
-    onopen={evt => restore = $state.snapshot(selection)}
+<Details
+    ontoggle={(evt, expanded) => {
+        // only on open, not on close
+        if (!expanded) return
+        // store selection
+        restore = $state.snapshot(selection)
+    }}
     flush={flush}
     tight={tight}
     comfy={comfy}
+    {...props}
 >
+    {#snippet summary()}
+        <div style:display=none>
+            {@render children?.()}
+        </div>
+    {/snippet}
+
+    {#snippet toggle(getExpanded, setExpanded)}
+        <div class=container>
+            <Button 
+                icon={context.options[selection]?.icon || context.placeholder?.icon}
+                onclick={evt => setExpanded(true)}
+                flush={flush}
+                tight={tight}
+                comfy={comfy}
+                stretch
+                square
+                ghost
+            >
+                {#snippet label()}
+                    <Label
+                        value={context.options[selection]?.label || context.placeholder?.label}
+                    />
+                    <div style:flex-grow=1></div>
+                    <Icon
+                        src=▼
+                        size=.5em
+                    />
+                {/snippet}
+            </Button>
+        </div>
+    {/snippet}
+
     <Array 
         flush={flush}
         tight={tight}
@@ -88,7 +110,7 @@
             onclick={evt => selection = $state.snapshot(restore)}
         />
     {/snippet}
-</Dialog>
+</Details>
 
 <style>
     .container {
