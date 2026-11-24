@@ -3,7 +3,7 @@
     import { Icon } from "../icon";
     import { Label } from "../label";
     import { Array, ArrayItem } from "../array";
-    import { Details } from "../details";
+    import { DetailsButton } from "../details";
     import { DialogButton } from "../dialog";
     import { setContext } from "svelte";
 
@@ -42,75 +42,65 @@
     let restore = $state.raw();
 </script>
 
-
-<Details
-    ontoggle={(evt, expanded) => {
-        // only on open, not on close
-        if (!expanded) return
-        // store selection
-        restore = $state.snapshot(selection)
-    }}
-    flush={flush}
-    tight={tight}
-    comfy={comfy}
-    {...props}
->
-    {#snippet summary()}
-        <div style:display=none>
-            {@render children?.()}
-        </div>
-    {/snippet}
-
-    {#snippet toggle(getExpanded, setExpanded)}
-        <div class=container>
-            <Button 
-                icon={context.options[selection]?.icon || context.placeholder?.icon}
-                onclick={evt => setExpanded(true)}
-                flush={flush}
-                tight={tight}
-                comfy={comfy}
-                stretch
-                square
-                ghost
-            >
-                {#snippet label()}
-                    <Label
-                        value={context.options[selection]?.label || context.placeholder?.label}
-                    />
-                    <div style:flex-grow=1></div>
-                    <Icon
-                        src=▼
-                        size=.5em
-                    />
-                {/snippet}
-            </Button>
-        </div>
-    {/snippet}
-
-    <Array 
+<div class=container>
+    <DetailsButton
+        icon={context.options[selection]?.icon || context.placeholder?.icon}
+        ontoggle={(evt, expanded) => {
+            // only on open, not on close
+            if (!expanded) return
+            // store selection
+            restore = $state.snapshot(selection)
+        }}
         flush={flush}
         tight={tight}
         comfy={comfy}
-        horizontal={horizontal}
+        stretch
+        square
         ghost
+        {...props}
     >
-        {#each Object.values(context.options) as option}
-            <ArrayItem>
-                {@render option.snippet?.()}
-            </ArrayItem>
-        {/each}
-    </Array>
+        {#snippet summary()}
+            <div style:display=none>
+                {@render children?.()}
+            </div>
+        {/snippet}
 
-    {@render children?.()}
+        {#snippet label()}
+            <Label
+                value={context.options[selection]?.label || context.placeholder?.label}
+            />
+            <div style:flex-grow=1></div>
+            <Icon
+                src=▼
+                size=.5em
+            />
+        {/snippet}
 
-    {#snippet buttons()}
-        <DialogButton action=OK />
-        <DialogButton 
-            action=CANCEL 
-            onclick={evt => selection = $state.snapshot(restore)}
-        />
-    {/snippet}
-</Details>
+        <Array 
+            flush={flush}
+            tight={tight}
+            comfy={comfy}
+            horizontal={horizontal}
+            ghost
+        >
+            {#each Object.values(context.options) as option}
+                <ArrayItem>
+                    {@render option.snippet?.()}
+                </ArrayItem>
+            {/each}
+        </Array>
+
+        {@render children?.()}
+
+        {#snippet buttons()}
+            <DialogButton action=OK />
+            <DialogButton 
+                action=CANCEL 
+                onclick={evt => selection = $state.snapshot(restore)}
+            />
+        {/snippet}
+    </DetailsButton>
+</div>
 
 <style>
     .container {
