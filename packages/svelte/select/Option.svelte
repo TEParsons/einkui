@@ -87,7 +87,6 @@
             context.setSelection
         }
         value={value}
-        checked={checked}
         label={label}
         icon={icon}
         onselect={onselect}
