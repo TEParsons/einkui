@@ -41,6 +41,7 @@
         ghost=false,
         square=false,
         stretch=false,
+        vertical=false,
         disabled=$bindable(),
         ...props
     } = $props()
@@ -65,6 +66,7 @@
     class:comfy
     class:large
     class:small
+    class:vertical
     {...props}
 >
     <Button 
@@ -78,13 +80,16 @@
         comfy={comfy}
         ghost={ghost}
         square={square}
+        disabled={disabled || value <= min}
     />
     <div 
         class=value
         class:stretch
     >
         {#if initial !== undefined && initial !== value}
-            <div class=initial>
+            <div 
+                class=initial
+            >
                 {initial}
                 <Icon
                     src="🡒"
@@ -105,6 +110,7 @@
         comfy={comfy}
         ghost={ghost}
         square={square}
+        disabled={disabled || value >= max}
     />
 </div>
 
@@ -154,8 +160,11 @@
         font-size: .8em;
     }
 
-    /* Stretch */
+    /* Layout */
     .stretch {
         flex-grow: 1;
+    }
+    .container.vertical {
+        flex-direction: column-reverse;
     }
 </style>
