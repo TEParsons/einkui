@@ -8,7 +8,9 @@
      * 
      * @typedef Props
      * @property {boolean} expanded Whether the dialog is shown
-     * @property {(evt:undefined, expanded:boolean) => undefined} ontoggle Function to execute when the expanded state changes
+     * @property {(evt:undefined|"OK"|"CANCEL"|"YES"|"NO", expanded:boolean) => undefined} ontoggle Function to execute when the expanded state changes
+     * @property {(evt:undefined) => undefined} onopen Function to call when the dialog opens
+     * @property {(evt:"OK"|"CANCEL"|"YES"|"NO") => undefined} onclose Function to call when the dialog closes
      * @property {string|Snippet} title Title for the dialog
      * @property {Snippet} [summary] Content to show as a summary when not expanded
      * @property {Snippet} [toggle] Button to toggle expanded states, leave as undefined to use the default "Show more..." - snippet will receive get/set functions for the expanded state
@@ -24,6 +26,8 @@
     let {
         expanded=$bindable(),
         ontoggle=(evt, expanded) => {},
+        onopen=(evt) => {},
+        onclose=(evt) => {},
         title=undefined,
         summary=undefined,
         toggle=undefined,
@@ -67,8 +71,18 @@
 <Dialog
     bind:shown={expanded}
     buttons={buttons || defaultButtons}
-    onopen={evt => ontoggle?.(evt, true)}
-    onclose={evt => ontoggle?.(evt, false)}
+    onopen={evt => {
+        // run ontoggle function
+        ontoggle?.(evt, true)
+        // run onopen function
+        onopen?.(evt)
+    }}
+    onclose={evt => {
+        // run ontoggle function
+        ontoggle?.(evt, false)
+        // run onclose function
+        onclose?.(evt)
+    }}
     title={title}
     flush={flush}
     tight={tight}

@@ -7,8 +7,8 @@
      * 
      * @typedef Props
      * @property {boolean} shown Whether this dialog is shown, bindable
-     * @property {() => undefined} onopen Function to call when dialog opens
-     * @property {() => undefined} onclose Function to call when the dialog closes
+     * @property {(evt) => undefined} onopen Function to call when dialog opens
+     * @property {(evt:"OK"|"CANCEL"|"YES"|"NO") => undefined} onclose Function to call when the dialog closes
      * @property {string|Snippet} [title] Title to display at the top of this dialog
      * @property {boolean} flush No padding
      * @property {boolean} tight Less padding
@@ -36,6 +36,7 @@
     let context = $state({
         handle: undefined,
         setShown: value => shown = value,
+        onclose: (evt) => onclose?.(evt),
         buttons: {}
     })
     setContext("einkui-dialog", context)
@@ -55,7 +56,6 @@
             untrack(() => onopen())
             context.handle.showModal()
         } else {
-            untrack(() => onclose())
             context.handle.close()
         }
     })

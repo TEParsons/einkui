@@ -14,6 +14,9 @@
      * @typedef Props
      * @property {boolean} selection Currently selected value from options
      * @property {string|Snippet} label Label for this control, or snippet to render in its place
+     * @property {string|Snippet} title Title for the dialog (will use label if not given)
+     * @property {(evt:undefined) => undefined} onopen Function to call when the dialog opens
+     * @property {(evt:"OK"|"CANCEL"|"YES"|"NO") => undefined} onclose Function to call when the dialog closes
      * @property {boolean} flush No padding on button, dialog and options array
      * @property {boolean} tight Less padding on button, dialog and options array
      * @property {boolean} comfy More padding on button, dialog and options array
@@ -26,6 +29,9 @@
     let {
         selection=$bindable(),
         label:_label=undefined,
+        title=undefined,
+        onopen=(evt) => {},
+        onclose=(evt) => {},
         flush=false,
         tight=false,
         comfy=false,
@@ -51,6 +57,7 @@
 >
     {#snippet ctrl(id, parentProps)}
         <DetailsButton
+            title={title || _label}
             icon={context.options[selection]?.icon || context.placeholder?.icon}
             ontoggle={(evt, expanded) => {
                 // only on open, not on close
@@ -59,7 +66,6 @@
                 temp = $state.snapshot(selection)
             }}
             flush={flush}
-            title={_label}
             tight={tight}
             comfy={comfy}
             stretch

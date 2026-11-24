@@ -12,7 +12,6 @@
      * @property {number} [max] Maximum value of the stepper, if any
      * @property {number} step Amount to increase/decrease by, default is 1
      * @property {(evt:PointerEvent) => undefined} onchange Function to call when value changes
-     * @property {boolean} confirmation Has to be clicked a second time to confirm
      * @property {boolean} flush No padding
      * @property {boolean} small Smaller icon
      * @property {boolean} tight Less padding

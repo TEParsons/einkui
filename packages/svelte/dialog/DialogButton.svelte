@@ -76,6 +76,7 @@
         } finally {
             // close dialog if action calls for it (even if onclick errored)
             if (["OK", "CANCEL", "YES", "NO"].includes(action)) {
+                dialog.onclose(action);
                 dialog.setShown(false);
             }
         }
