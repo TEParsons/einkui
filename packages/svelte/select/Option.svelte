@@ -7,7 +7,6 @@
      * 
      * @typedef Props
      * @property {any} value Value to set selection to when this button is checked
-     * @property {boolean} checked Value of this button - toggles between true and false according to whether selection === value
      * @property {string|Snippet} [label] Label for this button, or a snippet to render in its place
      * @property {string|Snippet} [icon] Path to the icon for this button, or a snippet to render in its place
      * @property {Snippet} [menu] Snippet defining a menu - if defined, gives this button a dropdown arrow which opens the menu
@@ -32,7 +31,6 @@
     /** @type {Props} */
     let {
         value,
-        checked=$bindable(),
         label=undefined,
         icon=undefined,
         onselect=(evt, value) => undefined,

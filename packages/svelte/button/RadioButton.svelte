@@ -6,7 +6,6 @@
      * @import { Snippet } from 'svelte'
      * 
      * @typedef Props
-     * @property {any} selection Currently selected value, shared with sibling radio controls
      * @property {any} value Value to set selection to when this button is checked
      * @property {boolean} checked Value of this button - toggles between true and false according to whether selection === value
      * @property {string|Snippet} [label] Label for this button, or a snippet to render in its place
@@ -31,7 +30,6 @@
 
     /** @type {Props} */
     let {
-        selection=$bindable(),
         value,
         checked=$bindable(),
         label=undefined,
