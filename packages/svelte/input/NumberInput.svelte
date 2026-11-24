@@ -67,7 +67,7 @@
 >
     {#snippet ctrl(id, parentProps)}
         <DetailsButton
-            label={value}
+            label={String(value)}
             title={title || _label}
             onopen={evt => {
                 // update initial and temp
