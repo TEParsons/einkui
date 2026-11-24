@@ -107,6 +107,11 @@
         max-height: 90vh;
         width: 80vw;
     }
+    dialog[open] {
+        display: flex;
+        flex-direction: column;
+        gap: var(--einkui-dialog-marginals-padding);
+    }
     .dialog-content {
         overflow-y: auto;
     }
@@ -116,11 +121,11 @@
         gap: .5rem;
         border-top: 1px solid var(--einkui-color-mantle);
         padding: var(--einkui-dialog-marginals-padding);
-        margin-top: var(--einkui-dialog-marginals-padding);
     }
     .dialog-title {
-        margin-bottom: calc(var(--einkui-dialog-marginals-padding) * 2);
+        margin-top: var(--einkui-dialog-marginals-padding);
         font-size: 1.5em;
+        font-weight: bold;
     }
     .gap {
         flex-grow: 1
